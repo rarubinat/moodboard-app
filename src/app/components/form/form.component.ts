@@ -14,7 +14,6 @@ interface MoodboardItem {
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './form.component.html',
-  styleUrl: './form.component.css'
 })
 export class FormComponent {
   newItem: MoodboardItem = {

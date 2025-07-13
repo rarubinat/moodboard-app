@@ -1,8 +1,17 @@
-<form (ngSubmit)="submitForm()" #form="ngForm" class="mb-6 grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+<form
+  (ngSubmit)="submitForm()"
+  #form="ngForm"
+  class="mb-6 grid grid-cols-1 md:grid-cols-3 gap-4 items-end bg-white p-6 rounded-2xl shadow-sm border"
+>
   <!-- Tipo -->
   <div>
-    <label class="block text-sm font-medium mb-1">Type</label>
-    <select [(ngModel)]="newItem.type" name="type" class="w-full p-2 border rounded" required>
+    <label class="block text-sm font-medium text-gray-700 mb-2">Type</label>
+    <select
+      [(ngModel)]="newItem.type"
+      name="type"
+      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+      required
+    >
       <option value="image">Image</option>
       <option value="color">Color</option>
       <option value="quote">Quote</option>
@@ -12,11 +21,11 @@
 
   <!-- Contenido -->
   <div>
-    <label class="block text-sm font-medium mb-1">Content</label>
+    <label class="block text-sm font-medium text-gray-700 mb-2">Content</label>
     <input
       [(ngModel)]="newItem.content"
       name="content"
-      class="w-full p-2 border rounded"
+      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
       placeholder="URL / Color / Quote / Link URL"
       required
     />
@@ -24,24 +33,23 @@
 
   <!-- Título -->
   <div>
-    <label class="block text-sm font-medium mb-1">Title (optional)</label>
+    <label class="block text-sm font-medium text-gray-700 mb-2">Title (optional)</label>
     <input
       [(ngModel)]="newItem.title"
       name="title"
-      class="w-full p-2 border rounded"
+      class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
       placeholder="Title for quote or link"
     />
   </div>
 
   <!-- Botón -->
-  <div class="md:col-span-3 text-right mt-2">
+  <div class="md:col-span-3 flex justify-end mt-4">
     <button
       type="submit"
       [disabled]="form.invalid"
-      class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+      class="bg-blue-600 text-white px-5 py-2.5 rounded-lg hover:bg-blue-700 disabled:opacity-50 transition"
     >
       Add Item
     </button>
   </div>
 </form>
-
