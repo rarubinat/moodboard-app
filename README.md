@@ -72,5 +72,9 @@ This app was built to explore the intersection of design and code: merging front
    ```
 ---
 
-## 🤝 Contributing
+## 🛠️ Contributing
 Feel free to fork this project, use it as a template or build upon it. Pull Requests are welcome!
+
+## 📄 License
+This project is licensed under the MIT License.
+© 2025 [rarubinat](https://github.com/rarubinat)
