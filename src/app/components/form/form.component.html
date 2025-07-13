@@ -1,1 +1,47 @@
-<p>form works!</p>
+<form (ngSubmit)="submitForm()" #form="ngForm" class="mb-6 grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+  <!-- Tipo -->
+  <div>
+    <label class="block text-sm font-medium mb-1">Type</label>
+    <select [(ngModel)]="newItem.type" name="type" class="w-full p-2 border rounded" required>
+      <option value="image">Image</option>
+      <option value="color">Color</option>
+      <option value="quote">Quote</option>
+      <option value="link">Link</option>
+    </select>
+  </div>
+
+  <!-- Contenido -->
+  <div>
+    <label class="block text-sm font-medium mb-1">Content</label>
+    <input
+      [(ngModel)]="newItem.content"
+      name="content"
+      class="w-full p-2 border rounded"
+      placeholder="URL / Color / Quote / Link URL"
+      required
+    />
+  </div>
+
+  <!-- Título -->
+  <div>
+    <label class="block text-sm font-medium mb-1">Title (optional)</label>
+    <input
+      [(ngModel)]="newItem.title"
+      name="title"
+      class="w-full p-2 border rounded"
+      placeholder="Title for quote or link"
+    />
+  </div>
+
+  <!-- Botón -->
+  <div class="md:col-span-3 text-right mt-2">
+    <button
+      type="submit"
+      [disabled]="form.invalid"
+      class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+    >
+      Add Item
+    </button>
+  </div>
+</form>
+
