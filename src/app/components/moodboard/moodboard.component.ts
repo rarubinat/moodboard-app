@@ -1,6 +1,5 @@
 // Importa el decorador Component y el decorador Input para recibir datos desde el componente padre
 import { Component, Input } from '@angular/core';
-
 // Importa funcionalidades comunes como *ngFor, *ngIf, etc.
 import { CommonModule } from '@angular/common';
 

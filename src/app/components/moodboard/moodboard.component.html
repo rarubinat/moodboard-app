@@ -1,5 +1,54 @@
-<!-- Recorre todos los elementos del array "items" que recibe el componente -->
-<div *ngFor="let item of items">
-  <!-- Muestra el tipo, contenido y título (si existe) de cada ítem -->
-  <p>{{ item.type }} - {{ item.content }} - {{ item.title }}</p>
+<!-- Contenedor principal en grid responsivo -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+  <div
+    *ngFor="let item of items"
+    class="rounded-2xl shadow-md p-6 hover:shadow-lg transition duration-300"
+    [ngClass]="{
+      'bg-blue-100': item.type === 'link',
+      'bg-yellow-100': item.type === 'quote',
+      'bg-green-100': item.type === 'color',
+      'bg-white': item.type === 'image'
+    }"
+     >
+    <!-- Título si existe -->
+    <h3 *ngIf="item.title" class="text-lg font-semibold text-gray-800 mb-2">
+      {{ item.title }}
+    </h3>
+
+    <!-- Renderizado por tipo -->
+    <ng-container [ngSwitch]="item.type">
+      <!-- Imagen -->
+      <img
+        *ngSwitchCase="'image'"
+        [src]="item.content"
+        alt="{{ item.title || 'Imagen del moodboard' }}"
+        class="w-full rounded-lg object-cover"
+      />
+
+      <!-- Color (cuadro de color) -->
+      <div
+        *ngSwitchCase="'color'"
+        class="w-full h-32 rounded-lg border border-gray-300"
+        [style.backgroundColor]="item.content"
+      ></div>
+
+      <!-- Cita o frase -->
+      <blockquote
+        *ngSwitchCase="'quote'"
+        class="italic text-gray-700 text-base leading-relaxed"
+      >
+        "{{ item.content }}"
+      </blockquote>
+
+      <!-- Enlace -->
+      <a
+        *ngSwitchCase="'link'"
+        [href]="item.content"
+        target="_blank"
+        class="text-blue-700 font-medium underline break-words"
+      >
+        {{ item.content }}
+      </a>
+    </ng-container>
+  </div>
 </div>
