@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -8,7 +8,6 @@ interface MoodboardItem {
   title?: string;
 }
 
-
 @Component({
   selector: 'app-form',
   standalone: true,
@@ -16,6 +15,8 @@ interface MoodboardItem {
   templateUrl: './form.component.html',
 })
 export class FormComponent {
+  @Output() itemAdded = new EventEmitter<MoodboardItem>();
+
   newItem: MoodboardItem = {
     type: 'image',
     content: '',
@@ -23,13 +24,10 @@ export class FormComponent {
   };
 
   submitForm() {
-    if (!this.newItem.content) return;
+    if (!this.newItem.content.trim()) return;
 
-    console.log('Nuevo ítem moodboard:', this.newItem);
-    // Aquí puedes emitir el ítem o llamar a un servicio para guardarlo
-    // Ejemplo: this.itemAdded.emit(this.newItem);
+    this.itemAdded.emit({ ...this.newItem });
 
-    // Resetear el formulario después de agregar
     this.newItem = { type: 'image', content: '', title: '' };
   }
 }
