@@ -6,6 +6,7 @@
   <!-- Tipo -->
   <div>
     <label class="block text-sm font-medium text-gray-700 mb-2">Type</label>
+    <!-- Selector para elegir el tipo de ítem -->
     <select
       [(ngModel)]="newItem.type"
       name="type"
@@ -22,6 +23,7 @@
   <!-- Contenido -->
   <div>
     <label class="block text-sm font-medium text-gray-700 mb-2">Content</label>
+    <!-- Campo para el contenido (URL, color, cita o link) -->
     <input
       [(ngModel)]="newItem.content"
       name="content"
@@ -31,9 +33,10 @@
     />
   </div>
 
-  <!-- Título -->
+  <!-- Título opcional -->
   <div>
     <label class="block text-sm font-medium text-gray-700 mb-2">Title (optional)</label>
+    <!-- Campo opcional para añadir título a cita o enlace -->
     <input
       [(ngModel)]="newItem.title"
       name="title"
@@ -42,7 +45,7 @@
     />
   </div>
 
-  <!-- Botón -->
+  <!-- Botón de envío -->
   <div class="md:col-span-3 flex justify-end mt-4">
     <button
       type="submit"

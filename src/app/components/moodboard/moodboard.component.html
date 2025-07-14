@@ -1,39 +1,5 @@
-<div class="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-  <div
-    *ngFor="let item of items"
-    class="bg-white rounded-xl shadow-md p-4 text-center transition-transform transform hover:scale-105 duration-300"
-    data-aos="fade-up"
-  >
-    <div *ngIf="item.title" class="text-sm font-semibold mb-2 text-gray-700">
-      {{ item.title }}
-    </div>
-
-    <ng-container [ngSwitch]="item.type">
-      <img
-        *ngSwitchCase="'image'"
-        [src]="item.content"
-        alt="moodboard image"
-        class="w-full h-48 object-cover rounded"
-      />
-
-      <blockquote *ngSwitchCase="'quote'" class="italic text-lg text-gray-600">
-        “{{ item.content }}”
-      </blockquote>
-
-      <div
-        *ngSwitchCase="'color'"
-        [style.background]="item.content"
-        class="w-full h-20 rounded border"
-      ></div>
-
-      <a
-        *ngSwitchCase="'link'"
-        [href]="item.content"
-        target="_blank"
-        class="text-blue-600 underline break-words"
-      >
-        {{ item.content }}
-      </a>
-    </ng-container>
-  </div>
+<!-- Recorre todos los elementos del array "items" que recibe el componente -->
+<div *ngFor="let item of items">
+  <!-- Muestra el tipo, contenido y título (si existe) de cada ítem -->
+  <p>{{ item.type }} - {{ item.content }} - {{ item.title }}</p>
 </div>
