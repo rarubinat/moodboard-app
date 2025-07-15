@@ -1,2 +1,10 @@
-<app-form (itemAdded)="addItem($event)"></app-form>
-<app-moodboard [items]="items"></app-moodboard>
+<!-- Fondo general estilo tablero -->
+<div class="min-h-screen bg-gray-100 p-6 space-y-6">
+  <!-- Formulario centrado estilo tarjeta -->
+  <div class="flex justify-center">
+    <app-form (itemAdded)="addItem($event)"></app-form>
+  </div>
+
+  <!-- Moodboard tipo Trello board -->
+  <app-moodboard [items]="items"></app-moodboard>
+</div>
