@@ -39,13 +39,12 @@ This app was built to explore the intersection of design and code: merging front
 
 **Install**
    ```bash
-
    npm install --save-dev @angular-devkit/build-angular@^17
    npm install -D tailwindcss postcss autoprefixer
    npx tailwindcss init
-   ng serve
-
+   ng serve 
    ```
+
 **tailwind.config.js**
    ```bash
         /** @type {import('tailwindcss').Config} */
@@ -70,6 +69,14 @@ This app was built to explore the intersection of design and code: merging front
    ```bash
    npm install aos --save
    ```
+
+   **DEPLOY**
+   
+   ```bash
+   ng build --configuration production
+   npx angular-cli-ghpages --dir=dist/moodboard-app/browser
+   ```
+
 ---
 
 ## 🛠️ Contributing
