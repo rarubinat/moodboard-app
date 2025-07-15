@@ -16,6 +16,23 @@
       {{ item.title }}
     </h3>
 
+    <!-- Línea identificativa tipo Trello -->
+    <div
+      class="h-2 w-12 rounded-full mb-2 ml-2"
+      [ngClass]="{
+        'bg-blue-600': item.type === 'link',
+        'bg-yellow-500': item.type === 'quote',
+        'bg-green-500': item.type === 'color',
+        'bg-gray-400': item.type === 'image',
+        'bg-purple-500': item.type === 'font',
+        'bg-pink-500': item.type === 'component',
+        'bg-gray-800': item.type === 'code',
+        'bg-indigo-400': item.type === 'tool',
+        'bg-red-400': item.type === 'video',
+        'bg-gray-500': item.type === 'text'
+      }"
+    ></div>
+
     <!-- Renderizado por tipo -->
     <ng-container [ngSwitch]="item.type">
       <img
@@ -31,10 +48,7 @@
         [style.backgroundColor]="item.content"
       ></div>
 
-      <blockquote
-        *ngSwitchCase="'quote'"
-        class="italic text-gray-700 text-xs leading-snug"
-      >
+      <blockquote *ngSwitchCase="'quote'" class="italic text-gray-700 text-xs leading-snug">
         “{{ item.content }}”
       </blockquote>
 

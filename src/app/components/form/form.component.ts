@@ -34,9 +34,13 @@ export class FormComponent {
     'text',
   ];
 
+  // Nueva propiedad para controlar el drawer visible/oculto
+  showForm = false;
+
   submitForm() {
     if (!this.newItem.content.trim()) return;
     this.itemAdded.emit({ ...this.newItem });
     this.newItem = { type: 'image', content: '', title: '' };
+    this.showForm = false; // cerrar drawer después de enviar
   }
 }

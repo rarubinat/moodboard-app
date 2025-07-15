@@ -1,56 +1,87 @@
-<form
-  (ngSubmit)="submitForm()"
-  #form="ngForm"
-  class="bg-white border border-gray-200 rounded-xl p-4 shadow-sm w-full max-w-3xl mx-auto mb-6"
+<!-- Botón flotante -->
+<button
+  *ngIf="!showForm"
+  (click)="showForm = true"
+  class="fixed bottom-6 right-6 z-50 bg-blue-600 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center text-2xl hover:bg-blue-700 transition"
+  aria-label="Add Item"
 >
-  <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-    <!-- Tipo -->
-    <div class="flex flex-col">
-      <label class="text-xs text-gray-600 font-medium mb-1">Type</label>
-      <select
-        [(ngModel)]="newItem.type"
-        name="type"
-        class="px-2 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
-        required
-      >
-        <option *ngFor="let type of types" [value]="type">
-          {{ type | titlecase }}
-        </option>
-      </select>
-    </div>
+  +
+</button>
 
-    <!-- Contenido -->
+<!-- Drawer lateral derecho -->
+<div
+  *ngIf="showForm"
+  class="fixed inset-0 z-40 bg-black/30 flex justify-end"
+>
+  <div class="w-full max-w-md bg-white h-full shadow-xl p-6 overflow-y-auto relative">
+    <!-- Cerrar -->
+    <button
+      (click)="showForm = false"
+      class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-2xl"
+      aria-label="Close"
+    >
+      &times;
+    </button>
+
+    <!-- Título del drawer -->
+    <h2 class="text-lg font-semibold mb-6 text-gray-800">Add New Moodboard Item</h2>
+
+    <!-- Formulario -->
+    <form
+      (ngSubmit)="submitForm(); showForm = false"
+      #form="ngForm"
+      class="space-y-4"
+    >
+      <!-- Tipo -->
+      <div class="flex flex-col">
+        <label class="text-xs text-gray-600 font-medium mb-1">Type</label>
+        <select
+          [(ngModel)]="newItem.type"
+          name="type"
+          class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
+          required
+        >
+          <option *ngFor="let type of types" [value]="type">
+            {{ type | titlecase }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Contenido -->
     <div class="flex flex-col">
       <label class="text-xs text-gray-600 font-medium mb-1">Content</label>
-      <input
+      <textarea
         [(ngModel)]="newItem.content"
         name="content"
-        class="px-2 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
+        class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-400 focus:outline-none h-48"
         placeholder="URL, Text, Color, Code..."
         required
-      />
+      ></textarea>
     </div>
 
-    <!-- Título -->
-    <div class="flex flex-col">
-      <label class="text-xs text-gray-600 font-medium mb-1">Title (optional)</label>
-      <input
-        [(ngModel)]="newItem.title"
-        name="title"
-        class="px-2 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
-        placeholder="Optional title"
-      />
-    </div>
-  </div>
 
-  <!-- Botón -->
-  <div class="flex justify-end mt-4">
-    <button
-      type="submit"
-      [disabled]="form.invalid"
-      class="bg-blue-600 text-white text-sm px-4 py-2 rounded-md hover:bg-blue-700 disabled:opacity-50 transition"
-    >
-      + Add Item
-    </button>
+
+      <!-- Título -->
+      <div class="flex flex-col">
+        <label class="text-xs text-gray-600 font-medium mb-1">Title (optional)</label>
+        <input
+          [(ngModel)]="newItem.title"
+          name="title"
+          class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
+          placeholder="Optional title"
+        />
+      </div>
+
+      <!-- Botón -->
+      <div class="flex justify-end">
+        <button
+          type="submit"
+          [disabled]="form.invalid"
+          class="bg-blue-600 text-white text-sm px-4 py-2 rounded-md hover:bg-blue-700 disabled:opacity-50 transition"
+        >
+          + Add Item
+        </button>
+      </div>
+    </form>
   </div>
-</form>
+</div>
