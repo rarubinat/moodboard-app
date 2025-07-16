@@ -30,8 +30,10 @@ This app was built to explore the intersection of design and code: merging front
 - **Framework**: Angular 17
 - **Styling**: Tailwind CSS
 - **Animations**: AOS (Animate On Scroll)
+- **Backend**: Node.js, Express + PostgreSQL(Supabase)
 - **Optional**: Firebase for realtime data
 - **Dev Tools**: Angular CLI, TypeScript
+- **Deploy**: Github Pages, Render
 
 ## 🌐 Backend API
 
@@ -39,8 +41,9 @@ This frontend connects to a Node.js + Express backend that handles all moodboard
 
 - Backend GitHub repository (public): https://github.com/rarubinat/moodboard-backend
 
-- Base API URL:
-https://moodboard-backend-4kze.onrender.com/api/items
+- Base API URL: https://moodboard-backend-4kze.onrender.com/api/items
+
+- Endpoints: **GET /api/items** and **POST /api/items**
 
 ---
 
@@ -78,15 +81,16 @@ https://moodboard-backend-4kze.onrender.com/api/items
    ```bash
    npm install aos --save
    ```
+---
 
-   **DEPLOY**
+## 🌍 Deployment
    
    ```bash
    ng build --configuration production
    npx angular-cli-ghpages --dir=dist/moodboard-app/browser
    ```
 
----
+
 
 ## 🛠️ Contributing
 Feel free to fork this project, use it as a template or build upon it. Pull Requests are welcome!
