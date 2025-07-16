@@ -33,6 +33,15 @@ This app was built to explore the intersection of design and code: merging front
 - **Optional**: Firebase for realtime data
 - **Dev Tools**: Angular CLI, TypeScript
 
+## 🌐 Backend API
+
+This frontend connects to a Node.js + Express backend that handles all moodboard data (items of type text, image, etc.).
+
+- Backend GitHub repository (public): https://github.com/rarubinat/moodboard-backend
+
+- Base API URL:
+https://moodboard-backend-4kze.onrender.com/api/items
+
 ---
 
 ## 🚀 Getting Started
