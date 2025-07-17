@@ -1,9 +1,17 @@
 <!-- Botón flotante -->
 <button
   *ngIf="!showForm"
-  (click)="showForm = true"
-  class="fixed bottom-6 right-6 z-50 bg-blue-600 text-white w-12 h-12 rounded-full shadow-lg flex items-center justify-center text-2xl hover:bg-blue-700 transition"
-  aria-label="Add Item"
+  (click)="openDrawer()"
+  class="fixed bottom-6 right-6 z-50
+         w-14 h-14
+         bg-black text-white
+         dark:bg-white dark:text-black
+         rounded-xl
+         shadow-md flex items-center justify-center
+         text-3xl font-bold
+         hover:scale-105 hover:shadow-lg
+         transition-all duration-200 ease-in-out"
+  aria-label="Add Moodboard Item"
 >
   +
 </button>
@@ -12,33 +20,44 @@
 <div
   *ngIf="showForm"
   class="fixed inset-0 z-40 bg-black/30 flex justify-end"
+  aria-modal="true"
+  role="dialog"
+  tabindex="-1"
 >
-  <div class="w-full max-w-md bg-white h-full shadow-xl p-6 overflow-y-auto relative">
-    <!-- Cerrar -->
+  <div
+    [ngClass]="{
+      'animate-slide-in': isAnimating,
+      'animate-slide-out': !isAnimating
+    }"
+    class="w-full md:max-w-md bg-white dark:bg-[#1f1f1f] h-full shadow-xl p-6 overflow-y-auto relative text-gray-800 dark:text-gray-100 transition-colors duration-300 ease-in-out"
+  >
+    <!-- Botón Cerrar -->
     <button
-      (click)="showForm = false"
-      class="absolute top-4 right-4 text-gray-500 hover:text-gray-700 text-2xl"
+      (click)="closeDrawer()"
+      class="absolute top-4 right-4 text-gray-500 dark:text-gray-400 hover:text-red-500 dark:hover:text-red-400 text-3xl transition-transform hover:scale-110 duration-200 ease-in-out cursor-pointer"
       aria-label="Close"
     >
       &times;
     </button>
 
     <!-- Título del drawer -->
-    <h2 class="text-lg font-semibold mb-6 text-gray-800">Add New Moodboard Item</h2>
+    <h2 class="text-lg font-semibold mb-6 text-gray-800 dark:text-gray-100">
+      Add New Moodboard Item
+    </h2>
 
     <!-- Formulario -->
     <form
-      (ngSubmit)="submitForm(); showForm = false"
+      (ngSubmit)="submitForm()"
       #form="ngForm"
       class="space-y-4"
     >
       <!-- Tipo -->
       <div class="flex flex-col">
-        <label class="text-xs text-gray-600 font-medium mb-1">Type</label>
+        <label class="text-xs text-gray-600 dark:text-gray-300 font-medium mb-1">Type</label>
         <select
           [(ngModel)]="newItem.type"
           name="type"
-          class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
+          class="px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-gray-100 rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none"
           required
         >
           <option *ngFor="let type of types" [value]="type">
@@ -48,26 +67,24 @@
       </div>
 
       <!-- Contenido -->
-    <div class="flex flex-col">
-      <label class="text-xs text-gray-600 font-medium mb-1">Content</label>
-      <textarea
-        [(ngModel)]="newItem.content"
-        name="content"
-        class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-400 focus:outline-none h-48"
-        placeholder="URL, Text, Color, Code..."
-        required
-      ></textarea>
-    </div>
-
-
+      <div class="flex flex-col">
+        <label class="text-xs text-gray-600 dark:text-gray-300 font-medium mb-1">Content</label>
+        <textarea
+          [(ngModel)]="newItem.content"
+          name="content"
+          class="px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-gray-100 rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none h-48"
+          placeholder="URL, Text, Color, Code..."
+          required
+        ></textarea>
+      </div>
 
       <!-- Título -->
       <div class="flex flex-col">
-        <label class="text-xs text-gray-600 font-medium mb-1">Title (optional)</label>
+        <label class="text-xs text-gray-600 dark:text-gray-300 font-medium mb-1">Title (optional)</label>
         <input
           [(ngModel)]="newItem.title"
           name="title"
-          class="px-3 py-2 border border-gray-300 rounded-md text-sm focus:ring-2 focus:ring-blue-400 focus:outline-none"
+          class="px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-gray-100 rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none"
           placeholder="Optional title"
         />
       </div>
@@ -76,8 +93,9 @@
       <div class="flex justify-end">
         <button
           type="submit"
+          aria-label="Add new moodboard item"
           [disabled]="form.invalid"
-          class="bg-blue-600 text-white text-sm px-4 py-2 rounded-md hover:bg-blue-700 disabled:opacity-50 transition"
+          class="bg-blue-600 dark:bg-blue-500 text-white text-sm px-5 py-2.5 rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 disabled:opacity-50 transition-all duration-200 ease-in-out shadow-md hover:shadow-lg"
         >
           + Add Item
         </button>

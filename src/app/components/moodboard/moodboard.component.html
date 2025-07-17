@@ -1,18 +1,24 @@
 <!-- Contenedor principal con 4 columnas en pantallas grandes -->
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 p-4 bg-gray-50 min-h-screen">
+<div
+  class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+  style="grid-auto-rows: auto;"
+>
   <div
     *ngFor="let item of items"
-    class="max-h-56 overflow-y-auto bg-white rounded-lg shadow p-2 hover:shadow-md transition duration-300 border border-gray-200 text-sm"
+    class="h-56 overflow-y-auto rounded-lg shadow p-2 hover:shadow-md transition duration-300 border text-sm animate-fade-slide-up"
     [ngClass]="{
-      'bg-blue-100': item.type === 'link',
-      'bg-yellow-100': item.type === 'quote',
-      'bg-green-100': item.type === 'color',
-      'bg-white': item.type === 'image',
-      'bg-gray-100': ['font', 'component', 'code', 'tool', 'video', 'text'].includes(item.type)
+      'bg-blue-100 dark:bg-blue-900 dark:text-blue-100 border-blue-200 dark:border-blue-700': item.type === 'link',
+      'bg-yellow-100 dark:bg-yellow-900 dark:text-yellow-100 border-yellow-200 dark:border-yellow-700': item.type === 'quote',
+      'bg-green-100 dark:bg-green-900 dark:text-green-100 border-green-200 dark:border-green-700': item.type === 'color',
+      'bg-white dark:bg-gray-800 dark:text-gray-200 border-gray-200 dark:border-gray-700': item.type === 'image',
+      'bg-gray-100 dark:bg-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-600': ['font', 'component', 'code', 'tool', 'video', 'text'].includes(item.type)
     }"
   >
     <!-- Título si existe -->
-    <h3 *ngIf="item.title" class="text-xs font-semibold text-gray-800 mb-1">
+    <h3
+      *ngIf="item.title"
+      class="text-xs font-semibold text-gray-800 dark:text-gray-200 mb-1"
+    >
       {{ item.title }}
     </h3>
 
@@ -44,11 +50,14 @@
 
       <div
         *ngSwitchCase="'color'"
-        class="w-full h-14 rounded border border-gray-300"
+        class="w-full h-14 rounded border border-gray-300 dark:border-gray-600"
         [style.backgroundColor]="item.content"
       ></div>
 
-      <blockquote *ngSwitchCase="'quote'" class="italic text-gray-700 text-xs leading-snug">
+      <blockquote
+        *ngSwitchCase="'quote'"
+        class="italic text-gray-700 dark:text-yellow-300 text-xs leading-snug"
+      >
         “{{ item.content }}”
       </blockquote>
 
@@ -57,24 +66,34 @@
         [href]="item.content"
         target="_blank"
         rel="noopener noreferrer"
-        class="text-blue-700 underline break-words text-xs"
+        class="text-blue-700 dark:text-blue-300 underline break-words text-xs"
       >
         {{ item.content }}
       </a>
 
-      <p *ngSwitchCase="'font'" [style.fontFamily]="item.content" class="text-sm mb-1">
+      <p
+        *ngSwitchCase="'font'"
+        [style.fontFamily]="item.content"
+        class="text-sm mb-1 dark:text-gray-200"
+      >
         {{ item.title || 'Font Sample' }}
       </p>
 
-      <pre *ngSwitchCase="'component'" class="bg-gray-200 p-1 rounded overflow-x-auto text-xs">
+      <pre
+        *ngSwitchCase="'component'"
+        class="bg-gray-200 dark:bg-gray-700 p-1 rounded overflow-x-auto text-xs dark:text-gray-200"
+      >
         {{ item.content }}
       </pre>
 
-      <pre *ngSwitchCase="'code'" class="bg-gray-900 text-green-400 p-1 rounded overflow-x-auto text-xs font-mono">
+      <pre
+        *ngSwitchCase="'code'"
+        class="bg-gray-900 text-green-400 p-1 rounded overflow-x-auto text-xs font-mono"
+      >
         {{ item.content }}
       </pre>
 
-      <p *ngSwitchCase="'tool'" class="text-xs">{{ item.content }}</p>
+      <p *ngSwitchCase="'tool'" class="text-xs dark:text-gray-200">{{ item.content }}</p>
 
       <video
         *ngSwitchCase="'video'"
@@ -83,7 +102,7 @@
         class="w-full rounded"
       ></video>
 
-      <p *ngSwitchCase="'text'" class="text-xs">{{ item.content }}</p>
+      <p *ngSwitchCase="'text'" class="text-xs dark:text-gray-200">{{ item.content }}</p>
     </ng-container>
   </div>
 </div>

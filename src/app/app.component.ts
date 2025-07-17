@@ -17,19 +17,26 @@ import { MoodboardService } from './services/moodboard.service';
 export class AppComponent implements OnInit {
   items: MoodboardItem[] = [];
 
+  // 🌙 Modo oscuro activado o no
+  darkMode = false;
+
   constructor(private moodboardService: MoodboardService) {}
 
   ngOnInit(): void {
-    // Al cargar la app, traer los ítems del backend
     this.moodboardService.getItems().subscribe((data) => {
       this.items = data;
     });
   }
 
   addItem(item: MoodboardItem) {
-    // Llama al backend para guardar y luego actualiza el array
     this.moodboardService.addItem(item).subscribe((savedItem) => {
       this.items = [...this.items, savedItem];
     });
+  }
+
+  // 🔁 Método para alternar el modo oscuro
+  toggleDarkMode() {
+    this.darkMode = !this.darkMode;
+    document.body.classList.toggle('dark', this.darkMode);
   }
 }

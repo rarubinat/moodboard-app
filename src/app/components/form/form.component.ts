@@ -20,7 +20,6 @@ export class FormComponent {
     title: '',
   };
 
-  // Opciones para el select de tipos
   types: MoodboardItem['type'][] = [
     'image',
     'color',
@@ -34,13 +33,28 @@ export class FormComponent {
     'text',
   ];
 
-  // Nueva propiedad para controlar el drawer visible/oculto
   showForm = false;
+  isAnimating = false; // controla animación
+
+  openDrawer() {
+    this.showForm = true;
+    // Pequeño delay para que se renderice el drawer antes de iniciar animación
+    setTimeout(() => {
+      this.isAnimating = true;
+    }, 10);
+  }
+
+  closeDrawer() {
+    this.isAnimating = false;
+    setTimeout(() => {
+      this.showForm = false;
+    }, 300); // duración de la animación en ms
+  }
 
   submitForm() {
     if (!this.newItem.content.trim()) return;
     this.itemAdded.emit({ ...this.newItem });
     this.newItem = { type: 'image', content: '', title: '' };
-    this.showForm = false; // cerrar drawer después de enviar
+    this.closeDrawer(); // cerrar con animación
   }
 }
