@@ -1,27 +1,56 @@
 # 🎨 MoodBoard App
 
-A minimal and creative web app to collect visual inspiration — images, color palettes, quotes, and links — organized in a beautiful board layout.
+This project is an interactive moodboard designed as a **collaborative tool for agile product teams**. Unlike a traditional moodboard focused on visual inspiration, this one is centered around organizing **ideas, tasks, technical resources, and notes** within a shared and evolving workflow. To provide multidisciplinary teams (design, development, product, QA, etc.)
 
 Built with **Angular 17**, **Tailwind CSS**, and designed with UI clarity in mind.
 
 ---
 
+## 💡 Commands to use
 
-💡 Why this project?
+| Type        | Description                                           |
+|-------------|-------------------------------------------------------|
+| `idea`      | Early-stage concept, brainstorming, or feature pitch |
+| `research`  | Market analysis, competitive review, technical notes |
+| `design`    | UI mockups, wireframes, visual design references     |
+| `task`      | To-do or development task                            |
+| `code`      | Code snippets, logic components, scripts             |
+| `test`      | QA-related content, test cases, test results         |
+| `asset`     | Images, icons, logos, illustrations, media           |
+| `note`      | Internal notes, meeting logs, reminders              |
+| `doc`       | Documentation links, specs, requirements             |
+
+
+| Status         | Description                                           |
+|----------------|-------------------------------------------------------|
+| `draft`        | Initial stage; not started or still in idea phase     |
+| `in_progress`  | Actively being worked on                              |
+| `completed`    | Finished and approved                                 |
+| `pending`      | Waiting for input, approval, or external action       |
+| `archived`     | No longer active; stored for reference or history     |
+| `error`        | Encountered an issue or failed during a process       |
+
+
+---
+
+## 📌 Why this project?
 This app was built to explore the intersection of design and code: merging frontend architecture (Angular) with UI/UX design principles. It demonstrates:
 
 - Component-based architecture
 - Tailwind-powered design
-- Clean, scalable Angular structure
+- Built with scalable Angular17 architecture (modular & component-based)
 - A strong UX/UI creative intention
+- Responsive grid layout using Tailwind
+- Smooth animations with AOS
+- Expand with backend storage
 
 ## ✨ Features
 
-- Add and organize visual items: photos, quotes, colors, links
-- Responsive grid layout using Tailwind
-- Smooth animations with AOS
-- Built with scalable Angular architecture (modular & component-based)
-- Ready to expand with Firebase or local storage
+- Type selector (type) integrated in the form
+- Status badge for visual progress tracking (status)
+- Dark/light theme support
+- Smooth animations and responsive layout
+- Backend integration
 
 ---
 
@@ -31,7 +60,6 @@ This app was built to explore the intersection of design and code: merging front
 - **Styling**: Tailwind CSS
 - **Animations**: AOS (Animate On Scroll)
 - **Backend**: Node.js, Express + PostgreSQL(Supabase)
-- **Optional**: Firebase for realtime data
 - **Dev Tools**: Angular CLI, TypeScript
 - **Deploy**: Github Pages, Render
 

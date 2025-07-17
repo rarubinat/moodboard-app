@@ -2,25 +2,8 @@
 import { Component, Input } from '@angular/core';
 // Importa funcionalidades comunes como *ngFor, *ngIf, etc.
 import { CommonModule } from '@angular/common';
-
-// Define la estructura que debe tener cada ítem del moodboard, ampliada con todos los tipos usados
-interface MoodboardItem {
-  type:
-    | 'image'
-    | 'color'
-    | 'quote'
-    | 'link'
-    | 'font'
-    | 'component'
-    | 'code'
-    | 'tool'
-    | 'video'
-    | 'text'; // Tipos posibles para el moodboard
-  content: string; // Contenido principal (URL, texto, color, código, etc.)
-  title?: string;  // Título opcional para contextualizar el contenido
-  status?: 'available' | 'in_progress' | 'completed' | 'pending' | 'error' | 'archived'; // ← nuevo campo opcional
-
-}
+// Importa la interfaz MoodboardItem desde el modelo externo
+import { MoodboardItem } from '../../models/moodboard-item.model'; // Ajusta la ruta si es necesario
 
 // Define el componente Angular
 @Component({

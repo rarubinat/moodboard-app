@@ -1,9 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-// IMPORTA la interfaz desde el archivo compartido
-import { MoodboardItem } from '../../models/moodboard-item.model'; // Ajusta la ruta según tu proyecto
+import { MoodboardItem } from '../../models/moodboard-item.model';
 
 @Component({
   selector: 'app-form',
@@ -15,33 +13,49 @@ export class FormComponent {
   @Output() itemAdded = new EventEmitter<MoodboardItem>();
 
   newItem: MoodboardItem = {
-    type: 'image',
+    type: 'note',
     content: '',
     title: '',
-    status: 'available', // ✅ nuevo campo
+    status: 'draft',
+    subtype: '',
   };
 
   types: MoodboardItem['type'][] = [
-    'image',
-    'color',
-    'quote',
-    'link',
-    'font',
-    'component',
+    'idea',
+    'research',
+    'design',
+    'task',
     'code',
-    'tool',
-    'video',
-    'text',
+    'test',
+    'asset',
+    'note',
+    'doc',
   ];
 
-  statuses: MoodboardItem['status'][] = [ // (opcional si lo usas en el template)
-    'available',
+  statuses: MoodboardItem['status'][] = [
+    'draft',
     'in_progress',
     'completed',
     'pending',
     'error',
     'archived',
   ];
+
+  subtypesByType: { [key in MoodboardItem['type']]: string[] } = {
+    idea: ['concept', 'brainstorm', 'vision'],
+    research: ['competitor', 'market', 'technical'],
+    design: ['ui', 'ux', 'wireframe', 'prototype'],
+    task: ['bug', 'feature', 'refactor', 'maintenance'],
+    code: ['frontend', 'backend', 'api', 'script'],
+    test: ['unit', 'integration', 'e2e'],
+    asset: ['image', 'icon', 'video', 'audio'],
+    note: ['meeting', 'summary', 'quick'],
+    doc: ['spec', 'guide', 'manual', 'readme'],
+  };
+
+  get availableSubtypes(): string[] {
+    return this.subtypesByType[this.newItem.type] || [];
+  }
 
   showForm = false;
   isAnimating = false;
@@ -64,12 +78,12 @@ export class FormComponent {
     if (!this.newItem.content.trim()) return;
     this.itemAdded.emit({ ...this.newItem });
 
-    // ✅ Reinicia también el status al valor por defecto
     this.newItem = {
-      type: 'image',
+      type: 'note',
       content: '',
       title: '',
-      status: 'available',
+      status: 'draft',
+      subtype: '',
     };
 
     this.closeDrawer();

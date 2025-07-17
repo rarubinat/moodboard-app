@@ -66,6 +66,22 @@
         </select>
       </div>
 
+      <!-- Subtipo dinámico -->
+      <div class="flex flex-col" *ngIf="availableSubtypes.length > 0">
+        <label class="text-xs text-gray-600 dark:text-gray-300 font-medium mb-1">Subtype</label>
+        <select
+          [(ngModel)]="newItem.subtype"
+          name="subtype"
+          class="px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-gray-100 rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none"
+          required
+        >
+          <option value="" disabled selected>Select subtype</option>
+          <option *ngFor="let st of availableSubtypes" [value]="st">
+            {{ st | titlecase }}
+          </option>
+        </select>
+      </div>
+
       <!-- Estado -->
       <div class="flex flex-col">
         <label class="text-xs text-gray-600 dark:text-gray-300 font-medium mb-1">Status</label>
@@ -75,12 +91,9 @@
           class="px-3 py-2 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-gray-100 rounded-md focus:ring-2 focus:ring-blue-400 focus:outline-none"
           required
         >
-          <option value="available">Available</option>
-          <option value="in_progress">In Progress</option>
-          <option value="completed">Completed</option>
-          <option value="pending">Pending</option>
-          <option value="error">Error</option>
-          <option value="archived">Archived</option>
+          <option *ngFor="let status of statuses" [value]="status">
+            {{ status | titlecase }}
+          </option>
         </select>
       </div>
 
