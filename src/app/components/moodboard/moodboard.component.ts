@@ -18,6 +18,8 @@ interface MoodboardItem {
     | 'text'; // Tipos posibles para el moodboard
   content: string; // Contenido principal (URL, texto, color, código, etc.)
   title?: string;  // Título opcional para contextualizar el contenido
+  status?: 'available' | 'in_progress' | 'completed' | 'pending' | 'error' | 'archived'; // ← nuevo campo opcional
+
 }
 
 // Define el componente Angular

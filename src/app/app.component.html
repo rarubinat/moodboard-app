@@ -1,25 +1,35 @@
-<!-- Barra superior con botón modo claro/oscuro -->
-<header class="bg-white dark:bg-[#1a1a1d] shadow-md px-6 py-4 flex items-center justify-between transition-colors duration-300">
-  <h1 class="text-xl font-bold text-gray-800 dark:text-white">
-    Moodboard-app working 
-  </h1>
+<!-- Wrapper principal: toda la página -->
+<div class="flex flex-col min-h-screen">
 
-  <!-- Botón modo claro/oscuro -->
-  <button
-    (click)="toggleDarkMode()"
-    class="text-sm text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 px-3 py-1 rounded-md transition"
-  >
-    {{ darkMode ? '☀️ Light' : '🌙 Dark' }}
-  </button>
-</header>
+  <!-- Header -->
+  <header class="bg-white dark:bg-[#1a1a1d] shadow-md px-6 py-4 flex items-center justify-between transition-colors duration-300">
+    <h1 class="text-xl font-bold text-gray-800 dark:text-white">
+      Moodboard-app working
+    </h1>
+    <button
+      (click)="toggleDarkMode()"
+      class="text-sm text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 px-3 py-1 rounded-md transition"
+    >
+      {{ darkMode ? '☀️ Light' : '🌙 Dark' }}
+    </button>
+  </header>
 
-<!-- Fondo general estilo tablero -->
-<div class="bg-gray-100 dark:bg-[#121212] p-6 pt-4 min-h-screen transition-colors duration-300">
-  <!-- Formulario centrado estilo tarjeta -->
-  <div class="flex justify-center mb-8">
-    <app-form (itemAdded)="addItem($event)"></app-form>
-  </div>
+  <!-- Main (contenido principal con flex-grow) -->
+  <main class="flex-grow bg-gray-100 dark:bg-[#121212] p-6 pt-4 transition-colors duration-300">
+    <div class="flex justify-center mb-8">
+      <app-form (itemAdded)="addItem($event)"></app-form>
+    </div>
+    <app-moodboard [items]="items"></app-moodboard>
+  </main>
 
-  <!-- Moodboard tipo Trello board -->
-  <app-moodboard [items]="items"></app-moodboard>
+  <!-- Footer pegado abajo -->
+  <footer class="bg-white dark:bg-[#1a1a1d] text-center text-xs text-gray-500 dark:text-gray-400 py-4 transition-colors duration-300">
+    <p class="mb-1">This project is licensed under the MIT License.</p>
+    <p>© 2025 
+      <a href="https://github.com/rarubinat" target="_blank" rel="noopener noreferrer" class="underline hover:text-black dark:hover:text-white">
+        rarubinat
+      </a>
+    </p>
+  </footer>
+
 </div>

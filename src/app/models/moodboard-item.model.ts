@@ -12,4 +12,6 @@ export interface MoodboardItem {
     | 'text';
   content: string;
   title?: string;
+  status?: 'available' | 'in_progress' | 'completed' | 'pending' | 'error' | 'archived';
+
 }

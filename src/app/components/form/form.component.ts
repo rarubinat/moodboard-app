@@ -18,6 +18,7 @@ export class FormComponent {
     type: 'image',
     content: '',
     title: '',
+    status: 'available', // ✅ nuevo campo
   };
 
   types: MoodboardItem['type'][] = [
@@ -33,12 +34,20 @@ export class FormComponent {
     'text',
   ];
 
+  statuses: MoodboardItem['status'][] = [ // (opcional si lo usas en el template)
+    'available',
+    'in_progress',
+    'completed',
+    'pending',
+    'error',
+    'archived',
+  ];
+
   showForm = false;
-  isAnimating = false; // controla animación
+  isAnimating = false;
 
   openDrawer() {
     this.showForm = true;
-    // Pequeño delay para que se renderice el drawer antes de iniciar animación
     setTimeout(() => {
       this.isAnimating = true;
     }, 10);
@@ -48,13 +57,21 @@ export class FormComponent {
     this.isAnimating = false;
     setTimeout(() => {
       this.showForm = false;
-    }, 300); // duración de la animación en ms
+    }, 300);
   }
 
   submitForm() {
     if (!this.newItem.content.trim()) return;
     this.itemAdded.emit({ ...this.newItem });
-    this.newItem = { type: 'image', content: '', title: '' };
-    this.closeDrawer(); // cerrar con animación
+
+    // ✅ Reinicia también el status al valor por defecto
+    this.newItem = {
+      type: 'image',
+      content: '',
+      title: '',
+      status: 'available',
+    };
+
+    this.closeDrawer();
   }
 }

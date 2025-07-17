@@ -1,32 +1,50 @@
-<!-- Contenedor principal con 4 columnas en pantallas grandes -->
 <div
   class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
   style="grid-auto-rows: auto;"
 >
   <div
     *ngFor="let item of items"
-    class="h-56 overflow-y-auto rounded-lg shadow p-2 hover:shadow-md transition duration-300 border text-sm animate-fade-slide-up"
+    class="relative h-56 overflow-y-auto rounded-xl border p-4 shadow-sm hover:shadow-md transition duration-300 text-sm
+           bg-white dark:bg-[#1f1f1f]
+           text-gray-800 dark:text-gray-100
+           border-gray-200 dark:border-white/20
+           dark:shadow-[0_2px_6px_rgba(255,255,255,0.1)] dark:hover:shadow-[0_4px_12px_rgba(255,255,255,0.15)]"
     [ngClass]="{
-      'bg-blue-100 dark:bg-blue-900 dark:text-blue-100 border-blue-200 dark:border-blue-700': item.type === 'link',
-      'bg-yellow-100 dark:bg-yellow-900 dark:text-yellow-100 border-yellow-200 dark:border-yellow-700': item.type === 'quote',
-      'bg-green-100 dark:bg-green-900 dark:text-green-100 border-green-200 dark:border-green-700': item.type === 'color',
-      'bg-white dark:bg-gray-800 dark:text-gray-200 border-gray-200 dark:border-gray-700': item.type === 'image',
-      'bg-gray-100 dark:bg-gray-700 dark:text-gray-200 border-gray-200 dark:border-gray-600': ['font', 'component', 'code', 'tool', 'video', 'text'].includes(item.type)
+      'border-blue-200': item.type === 'link',
+      'border-yellow-200': item.type === 'quote',
+      'border-green-200': item.type === 'color',
+      'border-gray-200': ['image', 'font', 'component', 'code', 'tool', 'video', 'text'].includes(item.type)
     }"
   >
-    <!-- Título si existe -->
+    <!-- Badge de estado -->
+    <div
+      *ngIf="item.status"
+      class="absolute top-2 right-2 px-2 py-0.5 rounded text-[10px] font-semibold tracking-wide uppercase"
+      [ngClass]="{
+        'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300': item.status === 'available',
+        'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200': item.status === 'in_progress',
+        'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300': item.status === 'completed',
+        'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-300': item.status === 'pending',
+        'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300': item.status === 'error',
+        'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300': item.status === 'archived'
+      }"
+    >
+      {{ item.status.replace('_', ' ') }}
+    </div>
+
+    <!-- Título -->
     <h3
       *ngIf="item.title"
-      class="text-xs font-semibold text-gray-800 dark:text-gray-200 mb-1"
+      class="text-xs font-bold mb-2 text-gray-900 dark:text-gray-100 tracking-wide"
     >
       {{ item.title }}
     </h3>
 
-    <!-- Línea identificativa tipo Trello -->
+    <!-- Línea decorativa sutil -->
     <div
-      class="h-2 w-12 rounded-full mb-2 ml-2"
+      class="h-[2px] w-auto h-8 mb-3 rounded-full"
       [ngClass]="{
-        'bg-blue-600': item.type === 'link',
+        'bg-blue-500': item.type === 'link',
         'bg-yellow-500': item.type === 'quote',
         'bg-green-500': item.type === 'color',
         'bg-gray-400': item.type === 'image',
@@ -39,24 +57,24 @@
       }"
     ></div>
 
-    <!-- Renderizado por tipo -->
+    <!-- Contenido -->
     <ng-container [ngSwitch]="item.type">
       <img
         *ngSwitchCase="'image'"
         [src]="item.content"
         alt="{{ item.title || 'Moodboard image' }}"
-        class="w-full rounded object-cover"
+        class="w-full h-24 object-cover rounded-md"
       />
 
       <div
         *ngSwitchCase="'color'"
-        class="w-full h-14 rounded border border-gray-300 dark:border-gray-600"
+        class="w-full h-12 rounded border border-gray-300 dark:border-gray-600"
         [style.backgroundColor]="item.content"
       ></div>
 
       <blockquote
         *ngSwitchCase="'quote'"
-        class="italic text-gray-700 dark:text-yellow-300 text-xs leading-snug"
+        class="italic text-gray-700 dark:text-yellow-200 text-xs leading-snug"
       >
         “{{ item.content }}”
       </blockquote>
@@ -74,35 +92,35 @@
       <p
         *ngSwitchCase="'font'"
         [style.fontFamily]="item.content"
-        class="text-sm mb-1 dark:text-gray-200"
+        class="text-sm mb-1"
       >
         {{ item.title || 'Font Sample' }}
       </p>
 
       <pre
         *ngSwitchCase="'component'"
-        class="bg-gray-200 dark:bg-gray-700 p-1 rounded overflow-x-auto text-xs dark:text-gray-200"
+        class="bg-gray-100 dark:bg-gray-800 p-2 rounded text-xs overflow-x-auto"
       >
         {{ item.content }}
       </pre>
 
       <pre
         *ngSwitchCase="'code'"
-        class="bg-gray-900 text-green-400 p-1 rounded overflow-x-auto text-xs font-mono"
+        class="bg-black text-green-300 p-2 rounded text-xs overflow-x-auto font-mono"
       >
         {{ item.content }}
       </pre>
 
-      <p *ngSwitchCase="'tool'" class="text-xs dark:text-gray-200">{{ item.content }}</p>
+      <p *ngSwitchCase="'tool'" class="text-xs">{{ item.content }}</p>
 
       <video
         *ngSwitchCase="'video'"
         controls
         [src]="item.content"
-        class="w-full rounded"
+        class="w-full rounded-md"
       ></video>
 
-      <p *ngSwitchCase="'text'" class="text-xs dark:text-gray-200">{{ item.content }}</p>
+      <p *ngSwitchCase="'text'" class="text-xs">{{ item.content }}</p>
     </ng-container>
   </div>
 </div>
