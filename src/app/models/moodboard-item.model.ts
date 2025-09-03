@@ -1,16 +1,21 @@
 export interface MoodboardItem {
+  id?: string;                     // UUID del item (Supabase lo genera)
   type:
-    | 'idea'       // Conceptos o propuestas iniciales
-    | 'research'   // Referencias, benchmarks, investigaciones
-    | 'design'     // Diseño visual, mockups, wireframes
-    | 'task'       // Acción concreta a realizar
-    | 'code'       // Fragmentos o referencias de código
-    | 'test'       // Casos de prueba o validaciones
-    | 'asset'      // Recursos gráficos, imágenes, fuentes, etc.
-    | 'note'       // Apuntes rápidos o aclaraciones
-    | 'doc';       // Documentación formal o estructurada
-  content: string;
-  title?: string;
+    | 'idea'
+    | 'research'
+    | 'design'
+    | 'task'
+    | 'code'
+    | 'test'
+    | 'asset'
+    | 'note'
+    | 'doc';
+  title?: string;                  // Título opcional para mejor legibilidad
+  content: string;                 // Contenido principal del item
+  subtype?: string;                // Categoría más específica si aplica
   status?: 'draft' | 'in_progress' | 'completed' | 'pending' | 'error' | 'archived';
-  subtype?: string;
+  //ownerId?: string;                // UUID del usuario responsable (Owner)
+  createdById?: string;            // UUID del usuario que creó el item (Contributor)
+  created_at?: string;             // Timestamp de creación (Supabase lo genera)
+  updated_at?: string;             // Timestamp de última actualización
 }

@@ -1,78 +1,89 @@
 <!-- moodboard.component.html -->
-<div class="mb-4 flex flex-col sm:flex-row gap-2 sm:items-center">
-  <label class="text-sm">Estado:</label>
-  <select [(ngModel)]="filterStatus" class="border px-2 py-1 rounded">
-    <option value="">Todos</option>
-    <option value="completed">Completed</option>
-    <option value="in_progress">In Progress</option>
-    <option value="pending">Pending</option>
-    <option value="error">Error</option>
-    <option value="archived">Archived</option>
-    <option value="draft">Draft</option>
-  </select>
 
-  <label class="text-sm">Tipo:</label>
-  <select [(ngModel)]="filterType" class="border px-2 py-1 rounded">
-    <option value="">Todos</option>
-    <option value="idea">Idea</option>
-    <option value="research">Research</option>
-    <option value="design">Design</option>
-    <option value="task">Task</option>
-    <option value="code">Code</option>
-    <option value="test">Test</option>
-    <option value="note">Note</option>
-    <option value="doc">Doc</option>
-    <option value="asset">Asset</option>
-  </select>
+<!-- Filtros -->
+<div class="mb-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+  <!-- Estado -->
+  <div>
+    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Estado</label>
+    <select [(ngModel)]="filterStatus"
+            class="w-full rounded-xl bg-white dark:bg-[#2a2a2a] text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-white/20 px-4 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition">
+      <option value="">Todos</option>
+      <option value="completed">Completed</option>
+      <option value="in_progress">In Progress</option>
+      <option value="pending">Pending</option>
+      <option value="error">Error</option>
+      <option value="archived">Archived</option>
+      <option value="draft">Draft</option>
+    </select>
+  </div>
+
+  <!-- Tipo -->
+  <div>
+    <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Tipo</label>
+    <select [(ngModel)]="filterType"
+            class="w-full rounded-xl bg-white dark:bg-[#2a2a2a] text-gray-900 dark:text-gray-100 border border-gray-300 dark:border-white/20 px-4 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition">
+      <option value="">Todos</option>
+      <option value="idea">Idea</option>
+      <option value="research">Research</option>
+      <option value="design">Design</option>
+      <option value="task">Task</option>
+      <option value="code">Code</option>
+      <option value="test">Test</option>
+      <option value="note">Note</option>
+      <option value="doc">Doc</option>
+      <option value="asset">Asset</option>
+    </select>
+  </div>
 </div>
 
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" style="grid-auto-rows: auto;">
+<!-- Grid de ítems -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
   <div
     *ngFor="let item of items | FilterItems:filterStatus:filterType"
-    class="relative h-56 overflow-y-auto rounded-xl border p-4 shadow-sm hover:shadow-md transition duration-300 text-sm
-           bg-white dark:bg-[#1f1f1f] text-gray-800 dark:text-gray-100 border-gray-200 dark:border-white/20
-           dark:hover:shadow-[0_4px_12px_rgba(255,255,255,0.15)]">
+    class="relative h-56 overflow-y-auto rounded-2xl border border-gray-200 dark:border-white/10 bg-white dark:bg-[#1c1c1c] p-4 shadow-md hover:shadow-lg transition-all duration-300 text-sm text-gray-800 dark:text-gray-100">
 
-    <!-- Estado -->
-    <div *ngIf="item.status" class="absolute top-2 right-2 px-2 py-0.5 rounded text-[10px] font-semibold tracking-wide uppercase"
-      [ngClass]="{
-        'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300': item.status === 'completed',
-        'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200': item.status === 'in_progress',
-        'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-300': item.status === 'pending',
-        'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300': item.status === 'error',
-        'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300': item.status === 'archived',
-        'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300': item.status === 'draft'
-      }">
+    <!-- Badge de estado -->
+    <div *ngIf="item.status"
+         class="absolute top-3 right-3 px-2 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-wide shadow-sm"
+         [ngClass]="{
+          'bg-green-100 text-green-700 dark:bg-green-800 dark:text-green-300': item.status === 'completed',
+          'bg-yellow-100 text-yellow-800 dark:bg-yellow-800 dark:text-yellow-200': item.status === 'in_progress',
+          'bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-300': item.status === 'pending',
+          'bg-red-100 text-red-700 dark:bg-red-800 dark:text-red-300': item.status === 'error',
+          'bg-purple-100 text-purple-800 dark:bg-purple-800 dark:text-purple-300': item.status === 'archived',
+          'bg-blue-100 text-blue-800 dark:bg-blue-800 dark:text-blue-300': item.status === 'draft'
+        }">
       {{ item.status.replace('_', ' ') }}
     </div>
 
     <!-- Título -->
-    <h3 *ngIf="item.title" class="text-xs font-bold mb-2 text-gray-900 dark:text-gray-100 tracking-wide">
+    <h3 *ngIf="item.title"
+        class="text-xs font-semibold mb-2 text-gray-900 dark:text-gray-100 tracking-wide">
       {{ item.title }}
     </h3>
 
     <!-- Línea decorativa -->
-    <div class="h-[2px] w-auto h-8 mb-3 rounded-full"
-      [ngClass]="{
-        'bg-yellow-400': item.type === 'idea',
-        'bg-blue-400': item.type === 'research',
-        'bg-green-400': item.type === 'design',
-        'bg-orange-400': item.type === 'task',
-        'bg-gray-500': item.type === 'note',
-        'bg-red-400': item.type === 'test',
-        'bg-indigo-500': item.type === 'doc',
-        'bg-purple-500': item.type === 'asset',
-        'bg-black': item.type === 'code'
-      }">
+    <div class="h-1 w-full mb-3 rounded-full"
+         [ngClass]="{
+          'bg-yellow-400': item.type === 'idea',
+          'bg-blue-400': item.type === 'research',
+          'bg-green-400': item.type === 'design',
+          'bg-orange-400': item.type === 'task',
+          'bg-gray-500': item.type === 'note',
+          'bg-red-400': item.type === 'test',
+          'bg-indigo-500': item.type === 'doc',
+          'bg-purple-500': item.type === 'asset',
+          'bg-black dark:bg-white/60': item.type === 'code'
+        }">
     </div>
 
-    <!-- Contenido según tipo -->
+    <!-- Contenido dinámico -->
     <ng-container [ngSwitch]="item.type">
       <p *ngSwitchCase="'idea'" class="italic text-xs">💡 {{ item.content }}</p>
       <p *ngSwitchCase="'research'" class="text-xs text-blue-700 dark:text-blue-300">🔍 {{ item.content }}</p>
       <p *ngSwitchCase="'design'" class="text-xs text-green-600 dark:text-green-300">🎨 {{ item.content }}</p>
       <p *ngSwitchCase="'task'" class="text-xs">✅ {{ item.content }}</p>
-      <pre *ngSwitchCase="'code'" class="bg-black text-green-300 p-2 rounded text-xs overflow-x-auto font-mono">
+      <pre *ngSwitchCase="'code'" class="bg-black dark:bg-gray-900 text-green-300 p-2 rounded text-xs overflow-x-auto font-mono whitespace-pre-wrap">
 {{ item.content }}</pre>
       <p *ngSwitchCase="'test'" class="text-xs text-red-500">🧪 {{ item.content }}</p>
       <p *ngSwitchCase="'note'" class="text-xs text-gray-500 dark:text-gray-300">🗑️ {{ item.content }}</p>
@@ -81,3 +92,4 @@
     </ng-container>
   </div>
 </div>
+

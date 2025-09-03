@@ -1,4 +1,6 @@
 # 🎨 MoodBoard App
+ng serve
+
 
 This project is an interactive moodboard designed as a **collaborative tool for agile product teams**. Unlike a traditional moodboard focused on visual inspiration, this one is centered around organizing **ideas, tasks, technical resources, and notes** within a shared and evolving workflow. To provide multidisciplinary teams (design, development, product, QA, etc.)
 
