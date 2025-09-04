@@ -12,6 +12,15 @@
     >
       {{ darkMode ? '☀️ Light' : '🌙 Dark' }}
     </button>
+
+    <!-- Botón Register -->
+    <button
+      (click)="register.openModal()"
+      class="text-sm text-white bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded-md transition"
+    >
+      Register
+    </button>
+
   </header>
 
   <!-- Main (contenido principal con flex-grow) -->
@@ -21,6 +30,9 @@
     </div>
     <app-moodboard [items]="items"></app-moodboard>
   </main>
+
+  <!-- Insertamos el componente de registro -->
+<app-register #register (userAdded)="handleUserAdded($event)"></app-register>
 
   <!-- Footer pegado abajo -->
   <footer class="bg-white dark:bg-[#1a1a1d] text-center text-xs text-gray-500 dark:text-gray-400 py-4 transition-colors duration-300">
