@@ -25,15 +25,23 @@ import { UserService } from './services/user.service';
 export class AppComponent implements OnInit {
   items: MoodboardItem[] = [];
   darkMode = false;
+  loading = true; 
 
   constructor(
     private moodboardService: MoodboardService,
-    private userService: UserService // añadido
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
-    this.moodboardService.getItems().subscribe((data) => {
-      this.items = data;
+    this.moodboardService.getItems().subscribe({
+      next: (data) => {
+        this.items = data;
+        this.loading = false; // 👈 ocultar loader cuando llegan los datos
+      },
+      error: (err) => {
+        console.error('Error al cargar items:', err);
+        this.loading = false; // 👈 ocultar aunque haya error
+      }
     });
   }
 
@@ -48,12 +56,12 @@ export class AppComponent implements OnInit {
     document.body.classList.toggle('dark', this.darkMode);
   }
 
-  // 🔹 Nuevo método para manejar usuario registrado
   handleUserAdded(user: User) {
     console.log('Usuario registrado:', user);
 
     this.userService.register(user).subscribe({
-      next: (savedUser) => console.log('Usuario guardado en backend:', savedUser),
+      next: (savedUser) =>
+        console.log('Usuario guardado en backend:', savedUser),
       error: (err) => console.error('Error al registrar usuario:', err),
     });
   }

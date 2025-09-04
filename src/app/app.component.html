@@ -1,6 +1,10 @@
-<!-- Wrapper principal: toda la página -->
-<div class="flex flex-col min-h-screen">
+<!-- Loader pantalla completa -->
+<div *ngIf="loading" class="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-[#121212]">
+  <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-blue-500 border-solid"></div>
+</div>
 
+<!-- Contenido principal -->
+<div *ngIf="!loading" class="flex flex-col min-h-screen">
   <!-- Header -->
   <header class="bg-white dark:bg-[#1a1a1d] shadow-md px-6 py-4 flex items-center justify-between transition-colors duration-300">
     <h1 class="text-xl font-bold text-gray-800 dark:text-white">
@@ -13,17 +17,15 @@
       {{ darkMode ? '☀️ Light' : '🌙 Dark' }}
     </button>
 
-    <!-- Botón Register -->
     <button
       (click)="register.openModal()"
       class="text-sm text-white bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded-md transition"
     >
       Register
     </button>
-
   </header>
 
-  <!-- Main (contenido principal con flex-grow) -->
+  <!-- Main -->
   <main class="flex-grow bg-gray-100 dark:bg-[#121212] p-6 pt-4 transition-colors duration-300">
     <div class="flex justify-center mb-8">
       <app-form (itemAdded)="addItem($event)"></app-form>
@@ -31,10 +33,10 @@
     <app-moodboard [items]="items"></app-moodboard>
   </main>
 
-  <!-- Insertamos el componente de registro -->
-<app-register #register (userAdded)="handleUserAdded($event)"></app-register>
+  <!-- Componente de registro -->
+  <app-register #register (userAdded)="handleUserAdded($event)"></app-register>
 
-  <!-- Footer pegado abajo -->
+  <!-- Footer -->
   <footer class="bg-white dark:bg-[#1a1a1d] text-center text-xs text-gray-500 dark:text-gray-400 py-4 transition-colors duration-300">
     <p class="mb-1">All Rights Reserved © 2025.</p>
     <p>© 2025 
@@ -43,5 +45,4 @@
       </a>
     </p>
   </footer>
-
 </div>
