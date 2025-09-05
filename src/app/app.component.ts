@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { map } from 'rxjs/operators';
 
 import { MoodboardComponent } from './components/moodboard/moodboard.component';
 import { FormComponent } from './components/form/form.component';
@@ -31,7 +32,10 @@ export class AppComponent implements OnInit {
   darkMode = false;
   loading = true;
 
-  currentUser$ = this.auth.currentUser$; // Observable reactivo del usuario
+  currentUser$ = this.auth.currentUser$; // usuario completo como observable
+  currentUserId$ = this.auth.currentUser$.pipe(
+    map(user => user?.id || '')
+  ); // solo el ID para Settings
 
   constructor(
     private moodboardService: MoodboardService,
@@ -62,7 +66,6 @@ export class AppComponent implements OnInit {
     document.body.classList.toggle('dark', this.darkMode);
   }
 
-  // 🔹 Registrar usuario usando AuthService
   handleUserAdded(user: User) {
     console.log('Usuario registrado:', user);
     this.auth.register(user).subscribe({
@@ -71,7 +74,6 @@ export class AppComponent implements OnInit {
     });
   }
 
-  // 🔹 Log Out
   logout() {
     this.auth.logout();
   }
