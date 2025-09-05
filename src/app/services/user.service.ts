@@ -7,11 +7,11 @@ import { User } from '../models/moodboard-user.model';
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = 'https://moodboard-backend-4kze.onrender.com/api/users'; // URL correcta
+  private apiUrl = 'https://moodboard-backend-4kze.onrender.com/api/users';
 
   constructor(private http: HttpClient) {}
 
-  // Registrar usuario
+  // Registrar usuario → se lo manda a tu backend
   register(user: User): Observable<User> {
     return this.http.post<User>(this.apiUrl, user);
   }

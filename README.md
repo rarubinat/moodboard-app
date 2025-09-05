@@ -120,6 +120,7 @@ This frontend connects to a Node.js + Express backend that handles all moodboard
    npx angular-cli-ghpages --dir=dist/moodboard-app/browser
    ```
 
+yarn add @supabase/supabase-js
 
 
 ## 🛠️ Contributing
