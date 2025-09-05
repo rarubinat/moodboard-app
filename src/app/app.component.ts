@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
+import { RouterModule } from '@angular/router';
 
 import { MoodboardComponent } from './components/moodboard/moodboard.component';
 import { FormComponent } from './components/form/form.component';
 import { RegisterComponent } from './components/register/register.component';
+import { SettingsComponent } from './components/settings/settings.component';
 import { MoodboardItem } from './models/moodboard-item.model';
-import { User } from './models/moodboard-user.model';
 import { MoodboardService } from './services/moodboard.service';
-import { UserService } from './services/user.service';
+import { AuthService } from './services/auth.service';
+import { User } from './models/moodboard-user.model';
 
 @Component({
   selector: 'app-root',
@@ -16,31 +18,35 @@ import { UserService } from './services/user.service';
   imports: [
     CommonModule,
     HttpClientModule,
+    RouterModule,
     FormComponent,
     MoodboardComponent,
-    RegisterComponent
+    RegisterComponent,
+    SettingsComponent
   ],
   templateUrl: './app.component.html',
 })
 export class AppComponent implements OnInit {
   items: MoodboardItem[] = [];
   darkMode = false;
-  loading = true; 
+  loading = true;
+
+  currentUser$ = this.auth.currentUser$; // Observable reactivo del usuario
 
   constructor(
     private moodboardService: MoodboardService,
-    private userService: UserService
+    private auth: AuthService
   ) {}
 
   ngOnInit(): void {
     this.moodboardService.getItems().subscribe({
       next: (data) => {
         this.items = data;
-        this.loading = false; // 👈 ocultar loader cuando llegan los datos
+        this.loading = false;
       },
       error: (err) => {
         console.error('Error al cargar items:', err);
-        this.loading = false; // 👈 ocultar aunque haya error
+        this.loading = false;
       }
     });
   }
@@ -56,13 +62,17 @@ export class AppComponent implements OnInit {
     document.body.classList.toggle('dark', this.darkMode);
   }
 
+  // 🔹 Registrar usuario usando AuthService
   handleUserAdded(user: User) {
     console.log('Usuario registrado:', user);
-
-    this.userService.register(user).subscribe({
-      next: (savedUser) =>
-        console.log('Usuario guardado en backend:', savedUser),
+    this.auth.register(user).subscribe({
+      next: (savedUser) => console.log('Usuario registrado y logueado:', savedUser),
       error: (err) => console.error('Error al registrar usuario:', err),
     });
+  }
+
+  // 🔹 Log Out
+  logout() {
+    this.auth.logout();
   }
 }

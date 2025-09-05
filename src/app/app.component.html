@@ -10,19 +10,43 @@
     <h1 class="text-xl font-bold text-gray-800 dark:text-white">
       Moodboard-app working
     </h1>
-    <button
-      (click)="toggleDarkMode()"
-      class="text-sm text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 px-3 py-1 rounded-md transition"
-    >
-      {{ darkMode ? '☀️ Light' : '🌙 Dark' }}
-    </button>
 
-    <button
-      (click)="register.openModal()"
-      class="text-sm text-white bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded-md transition"
-    >
-      Register
-    </button>
+    <div class="flex gap-2">
+      <!-- Dark Mode -->
+      <button
+        (click)="toggleDarkMode()"
+        class="text-sm text-gray-700 dark:text-gray-200 bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 px-3 py-1 rounded-md transition"
+      >
+        {{ darkMode ? '☀️ Light' : '🌙 Dark' }}
+      </button>
+
+      <!-- Register / Login o Logout -->
+      <ng-container *ngIf="currentUser$ | async as user; else signedOut">
+        <span class="px-2 py-1 text-gray-800 dark:text-white">Hola, {{ user.name || user.email }}</span>
+        <button
+          (click)="logout()"
+          class="text-sm text-white bg-red-600 hover:bg-red-700 px-3 py-1 rounded-md transition"
+        >
+          Log Out
+        </button>
+      </ng-container>
+      <ng-template #signedOut>
+        <button
+          (click)="register.openModal()"
+          class="text-sm text-white bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded-md transition"
+        >
+          Register / Login
+        </button>
+      </ng-template>
+
+      <!-- Settings -->
+      <button
+        (click)="settings.openModal()"
+        class="text-sm text-white bg-green-600 hover:bg-green-700 px-3 py-1 rounded-md transition"
+      >
+        ⚙️ Settings
+      </button>
+    </div>
   </header>
 
   <!-- Main -->
@@ -33,8 +57,9 @@
     <app-moodboard [items]="items"></app-moodboard>
   </main>
 
-  <!-- Componente de registro -->
+  <!-- Modales -->
   <app-register #register (userAdded)="handleUserAdded($event)"></app-register>
+  <app-settings #settings></app-settings>
 
   <!-- Footer -->
   <footer class="bg-white dark:bg-[#1a1a1d] text-center text-xs text-gray-500 dark:text-gray-400 py-4 transition-colors duration-300">

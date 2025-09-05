@@ -7,7 +7,7 @@ import { User } from '../models/moodboard-user.model';
   providedIn: 'root',
 })
 export class UserService {
-  private apiUrl = 'http://localhost:3000/api/users'; // URL de tu backend
+  private apiUrl = 'https://moodboard-backend-4kze.onrender.com/api/users'; // URL correcta
 
   constructor(private http: HttpClient) {}
 

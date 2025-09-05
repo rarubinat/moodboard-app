@@ -1,0 +1,28 @@
+<!-- Overlay del modal -->
+<div *ngIf="isOpen" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <!-- Contenedor del modal -->
+  <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg w-96">
+    
+    <h2 class="text-xl font-bold mb-4">Mi Perfil</h2>
+
+    <!-- Contenido del usuario -->
+    <div *ngIf="user" class="settings-card space-y-2">
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>Nombre:</strong> {{ user.name || 'No definido' }}</p>
+      <p><strong>Rol:</strong> {{ user.role }}</p>
+    </div>
+
+    <div *ngIf="!user">
+      <p>No se ha cargado ningún usuario.</p>
+    </div>
+
+    <!-- Botón de cerrar -->
+    <button 
+      (click)="closeModal()" 
+      class="mt-4 px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition"
+    >
+      Cerrar
+    </button>
+
+  </div>
+</div>
