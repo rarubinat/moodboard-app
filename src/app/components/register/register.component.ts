@@ -51,7 +51,6 @@ export class RegisterComponent {
 
   submitRegister() {
     if (!this.newUser.email.trim() || !this.newUser.password?.trim()) return;
-
     this.userAdded.emit({ ...this.newUser });
 
     this.newUser = {
@@ -66,13 +65,10 @@ export class RegisterComponent {
 
   submitLogin() {
     if (!this.loginUser.email.trim() || !this.loginUser.password?.trim()) return;
-
     console.log('Login submit:', this.loginUser);
     // Aquí podrías llamar a un servicio de login real
-
     // Limpiar formulario de login
     this.loginUser = { email: '', password: '' };
-
     this.closeModal();
   }
 }

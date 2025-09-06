@@ -13,7 +13,7 @@ export class UserService {
 
   // Registrar usuario → se lo manda a tu backend
   register(user: User): Observable<User> {
-    return this.http.post<User>(this.apiUrl, user);
+    return this.http.post<User>(`${this.apiUrl}/register`, user);
   }
 
   // Obtener todos los usuarios (opcional)
