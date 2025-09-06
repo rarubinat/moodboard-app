@@ -20,12 +20,12 @@ export class AuthService {
   }
 
   /** Login: busca usuario por email y password */
-  login(email: string, password: string): Observable<User | null> {
-    return this.userService.getUsers().pipe(
-      map(users => users.find(u => u.email === email && u.password === password) ?? null),
-      tap(user => this.currentUserSubject.next(user))
-    );
-  }
+ login(email: string, password: string): Observable<User | null> {
+  return this.userService.login(email, password).pipe(
+    map(res => res.user ?? null),               // extrae el usuario
+    tap(user => this.currentUserSubject.next(user)) // actualiza BehaviorSubject
+  );
+}
 
   /** Logout: limpia el usuario actual */
   logout() {
