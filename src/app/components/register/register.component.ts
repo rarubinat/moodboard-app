@@ -2,6 +2,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { UserRole, User } from '../../models/moodboard-user.model';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -35,6 +36,8 @@ export class RegisterComponent {
   // Control de pestañas
   activeTab: 'register' | 'login' = 'register';
 
+  constructor(private authService: AuthService) {}
+
   openModal() {
     this.showForm = true;
     setTimeout(() => (this.isAnimating = true), 10);
@@ -49,26 +52,45 @@ export class RegisterComponent {
     this.activeTab = tab;
   }
 
+  // Registro usando AuthService
   submitRegister() {
-    if (!this.newUser.email.trim() || !this.newUser.password?.trim()) return;
-    this.userAdded.emit({ ...this.newUser });
+    if (!this.newUser.email.trim() || !this.newUser.password?.trim()) {
+      alert('Todos los campos son obligatorios.');
+      return;
+    }
 
-    this.newUser = {
-      email: '',
-      password: '',
-      name: '',
-      role: 'contributor',
-    };
-
-    this.closeModal();
+    this.authService.register(this.newUser).subscribe({
+      next: (user) => {
+        alert(`✅ Registro exitoso. Bienvenido ${user.name || user.email}`);
+        this.userAdded.emit(user);
+        this.newUser = { email: '', password: '', name: '', role: 'contributor' };
+        this.closeModal();
+      },
+      error: (err) => {
+        console.error('Error en registro:', err);
+        alert(err.error?.error || '❌ Error al registrar usuario.');
+      },
+    });
   }
 
+  // Login usando AuthService
   submitLogin() {
-    if (!this.loginUser.email.trim() || !this.loginUser.password?.trim()) return;
-    console.log('Login submit:', this.loginUser);
-    // Aquí podrías llamar a un servicio de login real
-    // Limpiar formulario de login
-    this.loginUser = { email: '', password: '' };
-    this.closeModal();
+    if (!this.loginUser.email.trim() || !this.loginUser.password?.trim()) {
+      alert('Todos los campos son obligatorios.');
+      return;
+    }
+
+    this.authService.login(this.loginUser.email, this.loginUser.password).subscribe({
+      next: (user) => {
+        alert(`✅ Bienvenido ${user.name || user.email}`);
+        console.log('Login exitoso:', user);
+        this.loginUser = { email: '', password: '' };
+        this.closeModal();
+      },
+      error: (err) => {
+        console.error('Error en login:', err);
+        alert(err.error?.error || '❌ Email o contraseña incorrectos.');
+      },
+    });
   }
 }

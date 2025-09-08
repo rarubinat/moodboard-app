@@ -11,22 +11,28 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  // Registrar usuario → se lo manda a tu backend
+  /** Registrar usuario → se lo manda a tu backend */
   register(user: User): Observable<User> {
     return this.http.post<User>(`${this.apiUrl}/register`, user);
   }
 
-  //Login
-  login(email: string, password: string): Observable<{ user: User, accessToken: string }> {
-  return this.http.post<{ user: User, accessToken: string }>(`${this.apiUrl}/login`, { email, password });
-}
+  /** Login → devuelve usuario + token */
+  login(
+    email: string,
+    password: string
+  ): Observable<{ user: User; accessToken: string }> {
+    return this.http.post<{ user: User; accessToken: string }>(
+      `${this.apiUrl}/login`,
+      { email, password }
+    );
+  }
 
-  // Obtener todos los usuarios (opcional)
+  /** Obtener todos los usuarios */
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(this.apiUrl);
   }
 
-  // ✅ Obtener usuario por ID
+  /** Obtener usuario por ID */
   getUserById(id: string): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/${id}`);
   }
