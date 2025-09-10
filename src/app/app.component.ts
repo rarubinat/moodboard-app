@@ -23,7 +23,7 @@ import { User } from './models/moodboard-user.model';
     FormComponent,
     MoodboardComponent,
     RegisterComponent,
-    SettingsComponent
+    SettingsComponent,
   ],
   templateUrl: './app.component.html',
 })
@@ -32,10 +32,11 @@ export class AppComponent implements OnInit {
   darkMode = false;
   loading = true;
 
-  currentUser$ = this.auth.currentUser$; // usuario completo como observable
-  currentUserId$ = this.auth.currentUser$.pipe(
-    map(user => user?.id || '')
-  ); // solo el ID para Settings
+  // Observable del usuario logueado
+  currentUser$ = this.auth.currentUser$;
+
+  // Observable solo con el ID del usuario (opcional)
+  currentUserId$ = this.auth.currentUser$.pipe(map(user => user?.id || ''));
 
   constructor(
     private moodboardService: MoodboardService,
@@ -43,37 +44,42 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.loadMoodboardItems();
+  }
+
+  // 🔹 Carga los items del moodboard
+  private loadMoodboardItems() {
     this.moodboardService.getItems().subscribe({
-      next: (data) => {
+      next: data => {
         this.items = data;
         this.loading = false;
       },
-      error: (err) => {
+      error: err => {
         console.error('Error al cargar items:', err);
         this.loading = false;
-      }
+      },
     });
   }
 
+  // 🔹 Agrega un nuevo item al moodboard
   addItem(item: MoodboardItem) {
-    this.moodboardService.addItem(item).subscribe((savedItem) => {
+    this.moodboardService.addItem(item).subscribe(savedItem => {
       this.items = [...this.items, savedItem];
     });
   }
 
+  // 🔹 Alterna modo oscuro
   toggleDarkMode() {
     this.darkMode = !this.darkMode;
     document.body.classList.toggle('dark', this.darkMode);
   }
 
+  // 🔹 Solo log de usuario registrado (opcional)
   handleUserAdded(user: User) {
     console.log('Usuario registrado:', user);
-    this.auth.register(user).subscribe({
-      next: (savedUser) => console.log('Usuario registrado y logueado:', savedUser),
-      error: (err) => console.error('Error al registrar usuario:', err),
-    });
   }
 
+  // 🔹 Logout del usuario actual
   logout() {
     this.auth.logout();
   }

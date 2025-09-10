@@ -7,36 +7,62 @@ import { UserService } from './user.service';
   providedIn: 'root',
 })
 export class AuthService {
+  // 🔹 Subject que mantiene el usuario actual en memoria
   private currentUserSubject = new BehaviorSubject<User | null>(null);
+
+  // 🔹 Observable público que emite cambios del usuario actual
   currentUser$ = this.currentUserSubject.asObservable();
 
-  constructor(private userService: UserService) {}
+  constructor(private userService: UserService) {
+    // 🔹 Recuperar sesión desde localStorage al recargar la app
+    const savedUser = localStorage.getItem('currentUser');
+    if (savedUser) {
+      this.currentUserSubject.next(JSON.parse(savedUser));
+    }
+  }
 
-  /** Registro + login automático */
+  /** 
+   * Registro de usuario + login automático
+   */
   register(user: User): Observable<User> {
     return this.userService.register(user).pipe(
-      tap(savedUser => this.currentUserSubject.next(savedUser))
+      tap((savedUser) => {
+        localStorage.setItem('currentUser', JSON.stringify(savedUser));
+        this.currentUserSubject.next(savedUser);
+      })
     );
   }
 
-  /** Login: busca usuario por email y password */
-login(email: string, password: string): Observable<User> {
-  return this.userService.login(email, password).pipe(
-    tap(response => {
-      this.currentUserSubject.next(response.user);
-      localStorage.setItem('accessToken', response.accessToken); // opcional
-    }),
-    map(response => response.user)
-  );
-}
+  /** 
+   * Login de usuario
+   */
+  login(email: string, password: string): Observable<User> {
+    return this.userService.login(email, password).pipe(
+      tap((response) => {
+        // 🔹 Guardar usuario y token en localStorage
+        localStorage.setItem('currentUser', JSON.stringify(response.user));
+        localStorage.setItem('accessToken', response.accessToken);
 
+        // 🔹 Actualizar observable del usuario actual
+        this.currentUserSubject.next(response.user);
+      }),
+      // 🔹 Devolver solo el usuario (sin el token) al suscribirse
+      map((response) => response.user)
+    );
+  }
 
-  /** Logout: limpia el usuario actual */
+  /** 
+   * Logout del usuario
+   */
   logout() {
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('accessToken');
     this.currentUserSubject.next(null);
   }
 
-  /** Valor sincrónico del usuario actual */
+  /** 
+   * Getter para obtener el usuario actual de manera síncrona
+   */
   get currentUser(): User | null {
     return this.currentUserSubject.value;
   }

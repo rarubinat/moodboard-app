@@ -14,7 +14,9 @@ import { AuthService } from '../../services/auth.service';
 export class RegisterComponent {
   @Output() userAdded = new EventEmitter<User>();
 
+  // ==========================
   // Formulario de registro
+  // ==========================
   newUser: User = {
     email: '',
     password: '',
@@ -22,38 +24,56 @@ export class RegisterComponent {
     role: 'contributor',
   };
 
+  // ==========================
   // Formulario de login
+  // ==========================
   loginUser: { email: string; password: string } = {
     email: '',
     password: '',
   };
 
+  // Roles disponibles para registro
   roles: UserRole[] = ['contributor', 'owner', 'reviewer', 'maintainer'];
 
+  // ==========================
+  // Modal y animaciones
+  // ==========================
   showForm = false;
   isAnimating = false;
 
-  // Control de pestañas
+  // Pestaña activa: 'register' o 'login'
   activeTab: 'register' | 'login' = 'register';
 
   constructor(private authService: AuthService) {}
 
+  // ==========================
+  // Abrir modal
+  // ==========================
   openModal() {
     this.showForm = true;
     setTimeout(() => (this.isAnimating = true), 10);
   }
 
+  // ==========================
+  // Cerrar modal
+  // ==========================
   closeModal() {
     this.isAnimating = false;
     setTimeout(() => (this.showForm = false), 300);
   }
 
+  // ==========================
+  // Cambiar pestaña
+  // ==========================
   switchTab(tab: 'register' | 'login') {
     this.activeTab = tab;
   }
 
-  // Registro usando AuthService
+  // ==========================
+  // Registro de usuario
+  // ==========================
   submitRegister() {
+    // Validación simple
     if (!this.newUser.email.trim() || !this.newUser.password?.trim()) {
       alert('Todos los campos son obligatorios.');
       return;
@@ -61,9 +81,14 @@ export class RegisterComponent {
 
     this.authService.register(this.newUser).subscribe({
       next: (user) => {
+        // Emitimos el usuario al padre
         alert(`✅ Registro exitoso. Bienvenido ${user.name || user.email}`);
         this.userAdded.emit(user);
+
+        // Limpiamos formulario
         this.newUser = { email: '', password: '', name: '', role: 'contributor' };
+
+        // Cerramos modal
         this.closeModal();
       },
       error: (err) => {
@@ -73,8 +98,11 @@ export class RegisterComponent {
     });
   }
 
-  // Login usando AuthService
+  // ==========================
+  // Login de usuario
+  // ==========================
   submitLogin() {
+    // Validación simple
     if (!this.loginUser.email.trim() || !this.loginUser.password?.trim()) {
       alert('Todos los campos son obligatorios.');
       return;
@@ -82,13 +110,23 @@ export class RegisterComponent {
 
     this.authService.login(this.loginUser.email, this.loginUser.password).subscribe({
       next: (user) => {
+        // 🔹 Login exitoso
         alert(`✅ Bienvenido ${user.name || user.email}`);
         console.log('Login exitoso:', user);
+
+        // Limpiamos formulario
         this.loginUser = { email: '', password: '' };
+
+        // Cerramos modal
         this.closeModal();
+
+        // 🔹 El header se actualiza automáticamente porque AuthService actualiza currentUser$
+        //   En app.component.html se está usando: {{ currentUser$ | async as user }}
       },
       error: (err) => {
         console.error('Error en login:', err);
+
+        // Mostramos mensaje de error
         alert(err.error?.error || '❌ Email o contraseña incorrectos.');
       },
     });
