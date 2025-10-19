@@ -2,15 +2,7 @@
 <button
   *ngIf="!showForm"
   (click)="openDrawer()"
-  class="fixed bottom-6 right-6 z-50
-         w-14 h-14
-         bg-black text-white
-         dark:bg-white dark:text-black
-         rounded-xl
-         shadow-md flex items-center justify-center
-         text-3xl font-bold
-         hover:scale-105 hover:shadow-lg
-         transition-all duration-200 ease-in-out"
+  class="fixed bottom-6 right-6 z-50 w-14 h-14 bg-black text-white dark:bg-white dark:text-black rounded-xl shadow-md flex items-center justify-center text-3xl font-bold hover:scale-105 hover:shadow-lg transition-all duration-200 ease-in-out"
   aria-label="Add Moodboard Item"
 >
   +
@@ -46,11 +38,7 @@
     </h2>
 
     <!-- Formulario -->
-    <form
-      (ngSubmit)="submitForm()"
-      #form="ngForm"
-      class="space-y-4"
-    >
+    <form (ngSubmit)="submitForm()" #form="ngForm" class="space-y-4">
       <!-- Tipo -->
       <div class="flex flex-col">
         <label class="text-xs text-gray-600 dark:text-gray-300 font-medium mb-1">Type</label>
@@ -120,7 +108,7 @@
         ></textarea>
       </div>
 
-      <!-- Botón -->
+      <!-- Botón submit -->
       <div>
         <button
           type="submit"

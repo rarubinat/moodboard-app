@@ -2,6 +2,8 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MoodboardItem } from '../../models/moodboard-item.model';
+import { AuthService } from '../../services/auth.service';
+import { UserRole } from '../../models/moodboard-user.model';
 
 @Component({
   selector: 'app-form',
@@ -12,33 +14,15 @@ import { MoodboardItem } from '../../models/moodboard-item.model';
 export class FormComponent {
   @Output() itemAdded = new EventEmitter<MoodboardItem>();
 
-  newItem: MoodboardItem = {
-    type: 'note',
-    content: '',
-    title: '',
-    status: 'draft',
-    subtype: '',
-  };
+  // Estado local del formulario
+  newItem: MoodboardItem = this.getEmptyItem();
 
   types: MoodboardItem['type'][] = [
-    'idea',
-    'research',
-    'design',
-    'task',
-    'code',
-    'test',
-    'asset',
-    'note',
-    'doc',
+    'idea', 'research', 'design', 'task', 'code', 'test', 'asset', 'note', 'doc',
   ];
 
   statuses: MoodboardItem['status'][] = [
-    'draft',
-    'in_progress',
-    'completed',
-    'pending',
-    'error',
-    'archived',
+    'draft', 'in_progress', 'completed', 'pending', 'error', 'archived',
   ];
 
   subtypesByType: { [key in MoodboardItem['type']]: string[] } = {
@@ -60,32 +44,47 @@ export class FormComponent {
   showForm = false;
   isAnimating = false;
 
+  constructor(private authService: AuthService) {}
+
   openDrawer() {
     this.showForm = true;
-    setTimeout(() => {
-      this.isAnimating = true;
-    }, 10);
+    setTimeout(() => (this.isAnimating = true), 10);
   }
 
   closeDrawer() {
     this.isAnimating = false;
-    setTimeout(() => {
-      this.showForm = false;
-    }, 300);
+    setTimeout(() => (this.showForm = false), 300);
   }
 
   submitForm() {
     if (!this.newItem.content.trim()) return;
-    this.itemAdded.emit({ ...this.newItem });
 
-    this.newItem = {
+    const currentUser = this.authService.currentUser;
+
+    const itemToEmit: MoodboardItem = {
+      ...this.newItem,
+      created_by: currentUser?.id ?? 'unknown',
+      creator_role: (currentUser?.role as UserRole) ?? 'guest',
+    };
+
+    // Emitir al componente padre
+    this.itemAdded.emit(itemToEmit);
+
+    // Resetear formulario
+    this.newItem = this.getEmptyItem();
+
+    this.closeDrawer();
+  }
+
+  private getEmptyItem(): MoodboardItem {
+    return {
       type: 'note',
       content: '',
       title: '',
       status: 'draft',
       subtype: '',
+      created_by: '',
+      creator_role: undefined,
     };
-
-    this.closeDrawer();
   }
 }
